@@ -14,8 +14,9 @@ from pydub import AudioSegment
 from pydub.silence import detect_nonsilent
 
 class AudioSpectrogram(): 
-    def __init__(self, file, one_channel=False):
+    def __init__(self, file, output_dir, one_channel=False):
         self.file = file
+        self.output_dir = output_dir
         self.one_channel = one_channel
     
     def save_wav_channel(self, fn, wav, channel, nch):
@@ -50,11 +51,9 @@ class AudioSpectrogram():
 
     def extract_audio(self):
         """ Extracting audio voices"""
-        dir_f = os.getcwd() + "/" + "Audio_Split"
+        dir_f = os.path.join(self.output_dir, "Audio_Features")
         os.makedirs(dir_f, exist_ok=True)
         if self.file.endswith(".wav"):
-            new_name_A = dir_f + "/" + self.file.split("/")[-1][:-4] + "_A.wav"
-            new_name_B = dir_f + "/" + self.file.split("/")[-1][:-4] + "_B.wav"
             try:
                 wav = wave.open(self.file)    
             except:
@@ -66,9 +65,11 @@ class AudioSpectrogram():
             if 1 >= nch:
                 #print(f"{self.file}: cannot extract channel {2} out of {nch}. Extract only one channel")
                 self.one_channel = True
-                new_name_ = dir_f + "/" + self.file.split("/")[-1][:-4] + "_one_channel.wav"
+                new_name_ =os.path.join(dir_f, self.file.split("/")[-1][:-4] + "_one_channel.wav")
                 self.save_wav_channel(new_name_, wav, 0, nch)
             else:
+                new_name_A = os.path.join(dir_f, self.file.split("/")[-1][:-4] + "_A.wav")
+                new_name_B = os.path.join(dir_f, self.file.split("/")[-1][:-4] + "_B.wav")
                 self.save_wav_channel(new_name_A, wav, 0, nch)
                 self.save_wav_channel(new_name_B, wav, 1, nch)
         else:        
@@ -131,7 +132,7 @@ class AudioSpectrogram():
                                   min_silence)
             elif end-start>=1350:
                 new_sent = audio_track[start:end]
-                path = audio_path + self.file.split("/")[-1][:-4] + "_" + str(start) + "_" + str(end) + track + ".wav"
+                path = os.path.join(audio_path, self.file.split("/")[-1][:-4] + "_" + str(start) + "_" + str(end) + track + ".wav")
                 
                 new_sent.export(path, format="wav")
                 data = self.get_features(path)
@@ -149,11 +150,11 @@ class AudioSpectrogram():
 
     def save_speech(self):
         """Saving features"""
-        audio_path = "Audio_Split/" + self.file.split("/")[-1][:-4] + "/"
+        audio_path = os.path.join(self.output_dir, "Audio_Features", self.file.split("/")[-1][:-4])
         os.makedirs(audio_path, exist_ok=True)
 
         if self.one_channel:
-            audio_ch_path = "Audio_Split/" + self.file.split("/")[-1][:-4] + "_one_channel.wav"
+            audio_ch_path = os.path.join(self.output_dir, "Audio_Features", self.file.split("/")[-1][:-4] + "_one_channel.wav")
             audio_ch = AudioSegment.from_wav(audio_ch_path)
             sentences_ch = self.get_sentences(audio_ch)
             count_ch = self.start_ending(sentences_ch, audio_ch, audio_path, "_one_channel", 800)
@@ -161,8 +162,8 @@ class AudioSpectrogram():
             print(f"Done with {self.file}")
             return count_ch
         else:    
-            audio_A_path = "Audio_Split/" + self.file.split("/")[-1][:-4] + "_A.wav" 
-            audio_B_path = "Audio_Split/" + self.file.split("/")[-1][:-4] + "_B.wav" 
+            audio_A_path = os.path.join(self.output_dir, "Audio_Features", self.file.split("/")[-1][:-4] + "_A.wav")
+            audio_B_path = os.path.join(self.output_dir, "Audio_Features", self.file.split("/")[-1][:-4] + "_B.wav")
             audio_A = AudioSegment.from_wav(audio_A_path)
             audio_B = AudioSegment.from_wav(audio_B_path) 
             sentences_A = self.get_sentences(audio_A)

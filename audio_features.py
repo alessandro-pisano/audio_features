@@ -5,6 +5,7 @@ from function_spectrogram import AudioSpectrogram
 
 parser = argparse.ArgumentParser("""Folder or path audio features extract""")
 parser.add_argument('--p', help='Path of audio/folder you want to extract the audio features', type=str)
+parser.add_argument('--o', help='Path where you want to save the audio features', type=str)
 parser.add_argument('--multi', dest='multi', help='To use multiprocessing', action='store_true')
 parser.add_argument('--no-multi', dest='multi', help='To not use multiprocessing', action='store_false')
 parser.set_defaults(multi=True)
@@ -12,11 +13,12 @@ parser.add_argument('--n', help='Number of threads to be used, default 4', defau
 
 args = parser.parse_args()
 fold_file = args.p
+output_ = args.o
 feature = args.multi
 number = args.n
 
 def spectrogram(file):
-    spec = AudioSpectrogram(file)
+    spec = AudioSpectrogram(file, output_)
     spec.run()
 
 if __name__ == "__main__":            

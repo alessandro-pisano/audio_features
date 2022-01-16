@@ -15,6 +15,6 @@ pip install -r requirements.txt
 ```
 3. Extract the features from the audio files / directory
 ```
-python audio_features.py --p [file_path] --m [multi_process] --n [number of threads] 
+python audio_features.py --p [file_path] --o [output_path] --m [multi_process] --n [number of threads] 
 ```
-The file_path can be either a single file or a folder containing audio files. The argument for _multiprocessing_ and _numebr of threads_ are optional: default will be multiprocessing with 4 threads. The output numpy arrays will be stored in the current directory in a folder called Audio_Split.
+The file_path can be either a single file or a folder containing audio files. The argument for _multiprocessing_ and _numebr of threads_ are optional: default will be multiprocessing with 4 threads. The output numpy arrays will be stored in the selected directory in a folder called Audio_Features.
