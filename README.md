@@ -8,11 +8,13 @@ A repository to extract spectrogram from audio files and storing them into numpy
 ```
 git clone https://github.com/alessandro-pisano/audio_features/
 ```
-3. Install requirments
+2. Install requirments
 ```
+cd audio_features
 pip install -r requirements.txt
 ```
-3.
+3. Extract the features
 ```
 python audio_features --p [file_path] --m [multi_process] --n [number of threads] 
 ```
+The file_path can be either a single file or a folder containing audio files. The output numpy arrays will be stored in  the current directory in a folder called Audio_Split.
