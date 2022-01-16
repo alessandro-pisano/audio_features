@@ -1,5 +1,5 @@
 # Audio Features
-A repository to extract spectrogram from audio files and storing them into numpy arrays. It is ideal for conversational audio files. Right now, only wav files are supported.
+A repository to extract spectrogram from audio files and storing them into numpy arrays. It is ideal for conversational audio files. Right now, only _.wav_ files are supported.
 
 
 # How to use
