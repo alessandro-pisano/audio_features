@@ -1,5 +1,5 @@
 # Audio Features
-A repository to extract spectrogram from audio files and storing them into numpy arrays. It is ideal for conversational audio files. Right now, only _.wav_ files are supported.
+A repository to extract spectrogram from audio files and storing them into numpy arrays. It is ideal for conversational audio files. Only _.wav_ files are supported, right now.
 
 
 # How to use
@@ -13,7 +13,7 @@ git clone https://github.com/alessandro-pisano/audio_features/
 cd audio_features
 pip install -r requirements.txt
 ```
-3. Extract the features
+3. Extract the features from the audio files / directory
 ```
 python audio_features --p [file_path] --m [multi_process] --n [number of threads] 
 ```
